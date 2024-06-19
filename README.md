@@ -8,3 +8,6 @@
 2. Navigate to the `main.go` file
 3. Uncomment the solution you want to run
 4. `go run .`
+
+## Demo
+![Demo](demo.gif)
