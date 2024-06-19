@@ -89,6 +89,9 @@ func (r *Solution) computeNextGeneration() {
 
 // Runtime: O(1)
 func (r *Solution) print() {
+	// I am not sure if this works on all OS, but this is "clear screen".
+	_, _ = os.Stdout.Write([]byte{0x1B, 0x5B, 0x33, 0x3B, 0x4A, 0x1B, 0x5B, 0x48, 0x1B, 0x5B, 0x32, 0x4A})
+
 	for i := 0; i < 25; i++ {
 		for j := 0; j < 25; j++ {
 			if r.grid[i][j] == 1 {
