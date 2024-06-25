@@ -1,6 +1,8 @@
 package main
 
-import "gameoflife/solution1"
+import (
+	"gameoflife/solution1"
+)
 
 func main() {
 	sol1 := solution1.Solution{}

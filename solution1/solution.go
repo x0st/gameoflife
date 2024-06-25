@@ -12,79 +12,75 @@ import (
 // This solution allocates a new grid on every tick.
 
 type Solution struct {
-	grid [25][25]uint8
+	grid1 [25]uint64
+	grid2 [25]uint64
 }
 
 // Runtime: O(1)
 func (r *Solution) seed() {
-	r.grid = [25][25]uint8{
-		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-	}
+	r.grid1[11] |= 1 << 11
+	r.grid1[12] |= 1 << 12
+	r.grid1[13] |= 1 << 10
+	r.grid1[13] |= 1 << 11
+	r.grid1[13] |= 1 << 12
 }
 
 // Runtime: O(1)
 func (r *Solution) computeNextGeneration() {
-	// Copy the current grid. I understand, this can be memory-heavy in a certain environment.
-	nextGenGrid := *(&r.grid)
+	for i := 1; i < 24; i++ {
+		if r.grid1[i] == 0 &&
+			r.grid1[i-1] == 0 &&
+			r.grid1[i+1] == 0 {
+			continue
+		}
 
-	for i := 0; i < 25; i++ {
-		for j := 0; j < 25; j++ {
-			cellState := r.grid[i][j]
-			liveNeighbors := r.countLiveNeighbors(i, j)
+		for j := 1; j < 63; j += 1 {
+			// <count live neighbors>
+			var top, mid, bot uint64
 
-			switch cellState {
-			case 1:
-				// Any live cell with fewer than two live neighbours dies
-				if liveNeighbors < 2 {
-					nextGenGrid[i][j] = 0
-					continue
-				}
+			//     --- triplet of interest
+			//     |
+			//     v
+			// 00011100 -> 00000111
+			mid = r.grid1[i] >> (j - 1)
+			top = r.grid1[i-1] >> (j - 1)
+			bot = r.grid1[i+1] >> (j - 1)
 
-				// Any live cell with two or three live neighbours lives
-				if liveNeighbors == 2 || liveNeighbors == 3 {
-					nextGenGrid[i][j] = 1
-					continue
-				}
+			//      --- bit of interest
+			//      |             |
+			//      |             |
+			// 00000111 -> 00000001 & 00000001
+			topLeft := (top >> 2) & 1
+			//       --- bit of interest
+			//       |            |
+			//       |            |
+			// 00000111 -> 00000011 & 00000001
+			topVal := (top >> 1) & 1
+			//        --- bit of interest
+			//        |
+			//        |
+			// 00000111 & 00000001
+			topRight := top & 1
 
-				// Any live cell with more than three live neighbours dies
-				if liveNeighbors > 3 {
-					nextGenGrid[i][j] = 0
-					continue
-				}
-			case 0:
-				// Any dead cell with exactly three live neighbours becomes a live cell
-				if liveNeighbors == 3 {
-					nextGenGrid[i][j] = 1
-				}
+			botLeft := (bot >> 2) & 1
+			botVal := (bot >> 1) & 1
+			botRight := bot & 1
+
+			midRight := mid & 1
+			midLeft := (mid >> 2) & 1
+
+			aliveNeighbors := uint8(topLeft + topVal + topRight + midLeft + midRight + botLeft + botVal + botRight)
+			// </count live neighbors>
+
+			if aliveNeighbors == 3 || (aliveNeighbors == 2 && (r.grid1[i]&(1<<j)) != 0) {
+				r.grid2[i] |= 1 << j
+			} else {
+				r.grid2[i] &= ^(1 << j)
 			}
 		}
 	}
 
-	r.grid = nextGenGrid
+	r.grid1 = r.grid2
 }
 
 // Runtime: O(1)
@@ -93,11 +89,15 @@ func (r *Solution) print() {
 	_, _ = os.Stdout.Write([]byte{0x1B, 0x5B, 0x48})
 
 	for i := 0; i < 25; i++ {
-		for j := 0; j < 25; j++ {
-			if r.grid[i][j] == 1 {
-				_, _ = fmt.Fprintf(os.Stdout, "%3s", "*")
+		for j := 0; j < 64; j++ {
+			if r.grid1[i]&(1<<j) != 0 {
+				_, _ = fmt.Fprintf(os.Stdout, "%2s", "*")
 			} else {
-				_, _ = fmt.Fprintf(os.Stdout, "%3s", "_")
+				if i == 0 || i == 24 || j == 0 || j == 63 {
+					_, _ = fmt.Fprintf(os.Stdout, "%2s", "#")
+				} else {
+					_, _ = fmt.Fprintf(os.Stdout, "%2s", " ")
+				}
 			}
 		}
 
@@ -107,42 +107,27 @@ func (r *Solution) print() {
 
 // Runtime: O(1)
 // I understand, this method looks messy. I could have used hashmap to define grid and leverage it in this method.
-func (r *Solution) countLiveNeighbors(i, j int) uint8 {
-	liveNeighbors := uint8(0)
+func (r *Solution) countLiveNeighbors(i, j uint8) uint8 {
+	var top, mid, bot uint64
 
-	if i > 0 {
-		liveNeighbors += r.grid[i-1][j]
+	mid = r.grid1[i] >> (j - 1)
+	top = r.grid1[i-1] >> (j - 1)
+	bot = r.grid1[i+1] >> (j - 1)
 
-		if j > 0 {
-			liveNeighbors += r.grid[i-1][j-1]
-		}
+	topLeft := (top >> 2) & 1
+	topVal := (top >> 1) & 1
+	topRight := top & 1
 
-		if j < 24 {
-			liveNeighbors += r.grid[i-1][j+1]
-		}
-	}
+	botLeft := (bot >> 2) & 1
+	botVal := (bot >> 1) & 1
+	botRight := bot & 1
 
-	if i < 24 {
-		liveNeighbors += r.grid[i+1][j]
+	midRight := mid & 1
+	midLeft := (mid >> 2) & 1
 
-		if j > 0 {
-			liveNeighbors += r.grid[i+1][j-1]
-		}
+	sum := uint8(topLeft + topVal + topRight + midLeft + midRight + botLeft + botVal + botRight)
 
-		if j < 24 {
-			liveNeighbors += r.grid[i+1][j+1]
-		}
-	}
-
-	if j > 0 {
-		liveNeighbors += r.grid[i][j-1]
-	}
-
-	if j < 24 {
-		liveNeighbors += r.grid[i][j+1]
-	}
-
-	return liveNeighbors
+	return sum
 }
 
 func (r *Solution) Run() {
@@ -151,6 +136,63 @@ func (r *Solution) Run() {
 	for {
 		r.print()
 		r.computeNextGeneration()
-		time.Sleep(time.Millisecond * 300)
+		time.Sleep(time.Millisecond * 200)
 	}
 }
+
+// 000[000][110][100][010][001][011][111]
+
+// num >> (j-1)
+//
+// 00000000_00000010 | 00000000_00000100 => 00000000_00000110
+// 00000000_00000000
+// 00000000_00000000
+
+// (00000000_00000111 & 00000000_00000001) +
+// ((00000000_00000111 >> 1) & 00000000_00000001) +
+// ((00000000_00000111 >> 2) & 00000000_00000001) +
+
+// 0000_0000_0000_0000_0000_0000_0000_0111_0000_0000_0000_0000_0000_0000_0000_0000 abov
+// 0000_0000_0000_0000_0000_0000_0000_0111_0000_0000_0000_0000_0000_0000_0000_0000 curr
+// 0000_0000_0000_0000_0000_0000_0000_0111_0000_0000_0000_0000_0000_0000_0000_0000 belo
+//                                    v
+// 0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000
+
+/*
+11,11
+12,12
+13,10
+13,11
+13,12
+
+
+
+0000000000000000
+0000000000000000
+0000000110000000
+0000000110000000
+0000000000000000
+
+11111
+*/
+// 00000000_00000000_00000000_0000000000000000_00000000_00000000_00000000
+// 00000000_00000000_00000000_0000000000000000_00000000_00000000_00000000
+// 00000000_00000000_00000000_0000000000000000_00000000_00000000_00000000
+// 00000000_00000000_00000000_0000000000000000_00000000_00000000_00000000
+// 00000000_00000000_00000000_0000000000000000_00000000_00000000_00000000
+// 00000000_00000000_00000000_00000***00000000_00000000_00000000_00000000
+// 00000000_00000000_00000000_00000*1**0000000_00000000_00000000_00000000 abov
+// 00000000_00000000_00000000_0000***1*0000000_00000000_00000000_00000000 curr
+// 00000000_00000000_00000000_0000*111*0000000_00000000_00000000_00000000 belo
+// 00000000_00000000_00000000_0000*****0000000_00000000_00000000_00000000
+// 00000000_00000000_00000000_0000000000000000_00000000_00000000_00000000
+// 00000000_00000000_00000000_0000000000000000_00000000_00000000_00000000
+// 00000000_00000000_00000000_0000000000000000_00000000_00000000_00000000
+// 00000000_00000000_00000000_0000000000000000_00000000_00000000_00000000
+// 00000000_00000000_00000000_0000000000000000_00000000_00000000_00000000
+// 00000000_00000000_00000000_0000000000000000_00000000_00000000_00000000
+
+// x/2
+
+// 1111_0000
+// 0010_0000
