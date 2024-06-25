@@ -196,3 +196,14 @@ func (r *Solution) Run() {
 
 // 1111_0000
 // 0010_0000
+
+/*
+- double buffering / swap fields
+- grid segmentation
+- represent cols as uint64
+- keep a list of live cells
+- optimize “count live neighbors”
+- parallelize using Go routines
+- expand/embed methods
+- skip uint64(0) rows
+*/
